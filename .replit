@@ -1,4 +1,4 @@
-entrypoint = "index.js"
+entrypoint = "dist/index.js"
 modules = ["nodejs-22"]
 hidden = [".config", "package-lock.json"]
 
@@ -9,6 +9,26 @@ requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 channel = "stable-24_11"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["npx", "tsc", "&&", "node", "dist/index.js"]
 deploymentTarget = "autoscale"
 ignorePorts = false
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+
+[workflows]
+runButton = "Start Server"
+
+[[workflows.workflow]]
+name = "Start Server"
+author = 43254400
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsc"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/index.js"
