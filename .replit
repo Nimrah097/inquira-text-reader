@@ -31,4 +31,4 @@ args = "npx tsc"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node dist/index.js"
+args = "node dist/server.js"

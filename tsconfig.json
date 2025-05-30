@@ -6,5 +6,5 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["index.ts", "langchain.ts"]
+  "include": ["index.ts", "langchain.ts", "server.ts"]
 }
