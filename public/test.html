@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LangChain Ask Test</title>
+  </head>
+  <body>
+    <h2>LangChain Q&A</h2>
+    <textarea
+      id="doc"
+      rows="4"
+      cols="50"
+      placeholder="Paste document text here..."
+    ></textarea
+    ><br /><br />
+    <input id="question" type="text" placeholder="Ask a question" /><br /><br />
+    <button onclick="ask()">Ask</button>
+
+    <h3>Answer:</h3>
+    <p id="answer">...</p>
+
+    <script>
+      async function ask() {
+        const documentText = document.getElementById("doc").value;
+        const question = document.getElementById("question").value;
+
+        const res = await fetch("/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ documentText, question }),
+        });
+
+        const data = await res.json();
+        document.getElementById("answer").textContent =
+          data.answer || data.error;
+      }
+    </script>
+  </body>
+</html>

@@ -9,12 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@huggingface/inference": "^2.8.1",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "langchain": "^0.0.189",
-    "openai": "^4.103.0"
+    "openai": "^4.103.0",
+    "zod-to-json-schema": "^3.20.2"
   },
   "description": "",
   "devDependencies": {

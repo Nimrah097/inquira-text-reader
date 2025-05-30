@@ -1,23 +1,12 @@
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { HumanMessage } from "langchain/schema";
+import { HuggingFaceInference } from "langchain/llms/hf";
 
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import * as dotenv from "dotenv";
+const model = new HuggingFaceInference({
+  apiKey: process.env.HUGGINGFACE_API_KEY,
+  model: "google/flan-t5-base",
+});
 
-// Load .env variables
-dotenv.config();
-
-export const askQuestion = async (
-  documentText: string,
-  question: string,
-): Promise<string> => {
-  const model = new ChatOpenAI({
-    temperature: 0.7,
-    openAIApiKey: process.env.OPENAI_API_KEY, // Use env variable here
-  });
-
-  // Example prompt logic (adjust based on your chain setup)
-  const prompt = `Based on the following text: "${documentText}", answer: ${question}`;
-  const res = await model.call([new HumanMessage(prompt)]);
-  return res.text ?? "No answer found";
+export const askQuestion = async (context: string, question: string) => {
+  const prompt = `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer:`;
+  const res = await model.invoke(prompt);
+  return res;
 };

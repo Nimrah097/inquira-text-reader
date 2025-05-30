@@ -1,36 +1,33 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import { askQuestion } from "./langchain";
-import type { Request, Response } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 3000; // ✅ Dynamic port for Replit
+import { HuggingFaceInference } from "langchain/llms/hf";
+import { PromptTemplate } from "langchain/prompts";
+import { LLMChain } from "langchain/chains";
 
-app.use(cors());
-app.use(bodyParser.json());
+export async function askQuestion(
+  documentText: string,
+  question: string,
+): Promise<string> {
+  const model = new HuggingFaceInference({
+    apiKey: process.env.HUGGINGFACE_API_KEY, // token from Secrets
+    model: "tiiuae/falcon-7b-instruct", // or another model you prefer
+  });
 
-app.post("/ask", async (req: Request, res: Response): Promise<void> => {
-  const { documentText, question } = req.body;
+  const prompt = new PromptTemplate({
+    template: `Answer the question based on the following text:\n\n{context}\n\nQuestion: {question}\nAnswer:`,
+    inputVariables: ["context", "question"],
+  });
 
-  if (!documentText || !question) {
-    res.status(400).json({ error: "Missing documentText or question" });
-    return;
-  }
+  const chain = new LLMChain({
+    llm: model,
+    prompt,
+  });
 
-  try {
-    const answer = await askQuestion(documentText, question);
-    res.json({ answer });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
+  const response = await chain.call({
+    context: documentText,
+    question: question,
+  });
 
-app.get("/", (req, res) => {
-  res.send("✅ Server is running!");
-});
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on http://0.0.0.0:${PORT}`);
-});
+  return response.text.trim();
+}
