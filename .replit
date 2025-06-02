@@ -22,7 +22,6 @@ runButton = "Start Server"
 
 [[workflows.workflow]]
 name = "Start Server"
-author = 43254400
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
@@ -31,4 +30,4 @@ args = "npx tsc"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node dist/server.js"
+args = "node dist/index.js"

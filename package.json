@@ -10,12 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "@huggingface/inference": "^2.8.1",
+    "@langchain/community": "^0.0.38",
+    "@langchain/core": "^0.3.57",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "langchain": "^0.0.189",
-    "openai": "^4.103.0",
+    "langchain": "^0.1.37",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.104.0",
     "zod-to-json-schema": "^3.20.2"
   },
   "description": "",
@@ -23,6 +26,7 @@
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.24",
+    "@types/node-fetch": "^2.6.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
