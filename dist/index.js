@@ -37,6 +37,11 @@ app.get("/", (_req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../public"));
 });
 
+app.get("/", (_req, res) => {
+    res.redirect("/splash.html");
+});
+
+
 app.get("/test", (_req, res) => {
   res.sendFile(path.join(__dirname, "../public/test.html"));
 });
