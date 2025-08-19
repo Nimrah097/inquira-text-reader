@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inquira: Get Your Answers Here</title>
+
+    <!-- Google Font: Merienda -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merienda&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind custom font config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              merienda: ["Merienda", "cursive"],
+            },
+            colors: {
+              darkgreen: "#0B3D2E",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Splash redirect check -->
+    <script>
+      if (!sessionStorage.getItem("splashShown")) {
+        window.location.href = "splash.html";
+      }
+    </script>
+  </head>
+
+  <body class="bg-darkgreen min-h-screen font-merienda text-white">
+    <div class="max-w-4xl mx-auto mt-12 p-6">
+      <h1 class="text-3xl font-bold mb-10 text-center">
+        Inquira: Get Your Answers Here
+      </h1>
+
+      <form id="askForm" class="space-y-6 mt-6">
+        <textarea
+          id="document"
+          placeholder="Paste your text here..."
+          class="w-full h-64 p-6 border border-gray-500 bg-white text-black rounded-2xl resize-y shadow-md text-base"
+          required
+        ></textarea>
+
+        <input
+          type="text"
+          id="question"
+          placeholder="Ask a question about the text..."
+          class="w-full p-6 border border-gray-500 bg-white text-black rounded-2xl shadow-md text-base"
+          required
+        />
+
+        <button
+          type="submit"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg transition"
+        >
+          Submit Question
+        </button>
+      </form>
+
+      <div
+        id="answer"
+        class="mt-10 p-6 bg-white text-black border border-gray-200 rounded-2xl shadow-md text-base hidden"
+      ></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("askForm");
+      const answerDiv = document.getElementById("answer");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const documentText = document.getElementById("document").value;
+        const question = document.getElementById("question").value;
+
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ document: documentText, question }),
+        });
+
+        const data = await response.json();
+        answerDiv.innerText = data.answer || data.error || "No response";
+        answerDiv.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>

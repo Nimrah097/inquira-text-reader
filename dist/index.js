@@ -36,6 +36,11 @@ app.post("/ask", async (req, res) => {
 app.get("/", (_req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../public/splash.html"));
 });
+
+app.get("/test", (_req, res) => {
+  res.sendFile(path.join(__dirname, "../public/test.html"));
+});
+
 // Start server
 app.listen(Number(PORT), "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
