@@ -34,11 +34,11 @@ app.post("/ask", async (req, res) => {
 });
 // Serve frontend HTML
 app.get("/", (_req, res) => {
-    res.sendFile(path_1.default.join(__dirname, "../public/splash.html"));
+    res.sendFile(path_1.default.join(__dirname, "../public"));
 });
 
 app.get("/test", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public"));
+  res.sendFile(path.join(__dirname, "../public/test.html"));
 });
 
 // Start server
