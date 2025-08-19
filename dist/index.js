@@ -38,7 +38,7 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/test", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public/test.html"));
+  res.sendFile(path.join(__dirname, "../public"));
 });
 
 // Start server
